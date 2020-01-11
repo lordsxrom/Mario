@@ -88,6 +88,7 @@ open class PlayScreen : Screen {
         world.step(1 / 60f, 6, 2)
 
         player.update(delta)
+        hud.update(delta)
 
         gamecam.position.x = player.b2body.position.x
 

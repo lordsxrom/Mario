@@ -17,10 +17,8 @@ class Hud {
 
     private var worldTimer: Int
     private var timeCount: Float
-    private var score: Int
 
     var countdownLabel: Label
-    var scoreLabel: Label
     var timeLabel: Label
     var levelLabel: Label
     var worldLabel: Label
@@ -39,7 +37,7 @@ class Hud {
         table.setFillParent(true)
 
         countdownLabel = Label(String.format("%03d", worldTimer), Label.LabelStyle(BitmapFont(), Color.WHITE))
-        scoreLabel = Label(String.format("%06d", score), Label.LabelStyle(BitmapFont(), Color.WHITE))
+//        scoreLabel = Label(String.format("%06d", score), Label.LabelStyle(BitmapFont(), Color.WHITE))
         timeLabel = Label("TIME", Label.LabelStyle(BitmapFont(), Color.WHITE))
         levelLabel = Label("1-1", Label.LabelStyle(BitmapFont(), Color.WHITE))
         worldLabel = Label("WORLD", Label.LabelStyle(BitmapFont(), Color.WHITE))
@@ -55,6 +53,27 @@ class Hud {
 
         stage.addActor(table)
     }
+
+    fun update(delta:Float){
+        timeCount += delta
+        if (timeCount >= 1) {
+            worldTimer--
+            countdownLabel.setText(String.format("%03d", worldTimer))
+            timeCount = 0f
+        }
+    }
+
+    companion object {
+        private var score: Int = 0
+        @JvmStatic var scoreLabel= Label(String.format("%06d", score), Label.LabelStyle(BitmapFont(), Color.WHITE))
+
+        @JvmStatic fun addScore(value:Int) {
+            score += value
+            scoreLabel.setText(String.format("%06d", score))
+        }
+    }
+
+
 
     fun dispose() {
         stage.dispose()
