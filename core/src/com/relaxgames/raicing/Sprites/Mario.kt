@@ -3,6 +3,7 @@ package com.relaxgames.raicing.Sprites
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.utils.Array
 import com.relaxgames.raicing.MyGdxGame
@@ -109,6 +110,13 @@ class Mario : Sprite {
 
         fdef.shape = shape
         b2body.createFixture(fdef)
+
+        val head = EdgeShape()
+        head.set(Vector2(-2 / MyGdxGame.PPM, 6 / MyGdxGame.PPM), Vector2(2 / MyGdxGame.PPM, 6 / MyGdxGame.PPM))
+        fdef.shape = head
+        fdef.isSensor = true
+
+        b2body.createFixture(fdef).userData = "head"
     }
 
 }

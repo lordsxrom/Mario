@@ -18,6 +18,7 @@ import com.relaxgames.raicing.MyGdxGame
 import com.relaxgames.raicing.Scenes.Hud
 import com.relaxgames.raicing.Sprites.Mario
 import com.relaxgames.raicing.Tools.B2WorldCreator
+import com.relaxgames.raicing.Tools.WorldContactListener
 
 open class PlayScreen : Screen {
     private var game: MyGdxGame
@@ -67,6 +68,8 @@ open class PlayScreen : Screen {
 
         //create mario in our game world
         player = Mario(world, this)
+
+        world.setContactListener(WorldContactListener())
     }
 
     override fun hide() {
