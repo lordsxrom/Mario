@@ -7,6 +7,7 @@ import com.relaxgames.raicing.MyGdxGame
 object DesktopLauncher {
     @JvmStatic
     fun main(arg: Array<String>) {
+        System.setProperty("user.name","Public")
         val config = LwjglApplicationConfiguration()
         LwjglApplication(MyGdxGame(), config)
     }

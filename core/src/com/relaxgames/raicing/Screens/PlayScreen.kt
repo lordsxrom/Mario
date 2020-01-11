@@ -3,6 +3,7 @@ package com.relaxgames.raicing.Screens
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.Screen
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -38,6 +39,8 @@ open class PlayScreen : Screen {
 
     private var player: Mario
 
+    private var music: Music
+
     constructor(game: MyGdxGame) {
         atlas = TextureAtlas("Mario_and_Enemies.pack")
 
@@ -70,6 +73,10 @@ open class PlayScreen : Screen {
         player = Mario(world, this)
 
         world.setContactListener(WorldContactListener())
+
+        music = MyGdxGame.manager.get("audio/music/mario_music.ogg", Music::class.java)
+        music.isLooping = true
+        music.play()
     }
 
     override fun hide() {

@@ -1,5 +1,6 @@
 package com.relaxgames.raicing.Sprites
 
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet
 import com.badlogic.gdx.math.Rectangle
@@ -21,6 +22,13 @@ class Coin : InteractiveTileObject {
 
     override fun onHeadHit() {
         Logger.getLogger(Coin::class.java.name).info("Collision")
+
+        if (getCell().tile.id == BLANK_COIN) {
+            MyGdxGame.manager.get("audio/sounds/bump.wav", Sound::class.java).play()
+        } else {
+            MyGdxGame.manager.get("audio/sounds/coin.wav", Sound::class.java).play()
+        }
+
         getCell().tile = tileSet.getTile(BLANK_COIN)
         Hud.addScore(100)
     }
