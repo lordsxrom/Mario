@@ -3,12 +3,14 @@ package com.relaxgames.raicing.Sprites
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.World
+import com.relaxgames.raicing.MyGdxGame
 import java.util.logging.Logger
 
 class Coin : InteractiveTileObject {
 
     constructor(world: World, map: TiledMap, bounds: Rectangle) : super(world, map, bounds) {
         fixtue.userData = this
+        setCategoryFilter(MyGdxGame.COIN_BIT)
     }
 
     override fun onHeadHit() {

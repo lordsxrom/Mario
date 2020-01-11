@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.utils.Array
 import com.relaxgames.raicing.MyGdxGame
 import com.relaxgames.raicing.Screens.PlayScreen
+import kotlin.experimental.or
 
 
 class Mario : Sprite {
@@ -107,6 +108,8 @@ class Mario : Sprite {
         val fdef = FixtureDef()
         val shape = CircleShape()
         shape.radius = 6 / MyGdxGame.PPM
+        fdef.filter.categoryBits = MyGdxGame.MARIO_BIT
+        fdef.filter.maskBits = MyGdxGame.DEFAULT_BIT or MyGdxGame.COIN_BIT or MyGdxGame.BRICK_BIT
 
         fdef.shape = shape
         b2body.createFixture(fdef)

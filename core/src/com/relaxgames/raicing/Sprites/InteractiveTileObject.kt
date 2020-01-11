@@ -1,6 +1,7 @@
 package com.relaxgames.raicing.Sprites
 
 import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.*
 import com.relaxgames.raicing.MyGdxGame
@@ -32,10 +33,19 @@ abstract class InteractiveTileObject {
         shape.setAsBox((bounds.getWidth() / 2) / MyGdxGame.PPM, (bounds.getHeight() / 2) / MyGdxGame.PPM)
         fdef.shape = shape
         fixtue = body.createFixture(fdef)
-
-
     }
 
     abstract fun onHeadHit()
+
+    fun setCategoryFilter(filterBit: Short) {
+        val filter = Filter()
+        filter.categoryBits = filterBit
+        fixtue.filterData = filter
+    }
+
+    fun getCell(): TiledMapTileLayer.Cell {
+        val layer = map.layers.get(1) as TiledMapTileLayer
+        return layer.getCell((body.position.x * MyGdxGame.PPM / 16).toInt(), (body.position.y * MyGdxGame.PPM / 16).toInt())
+    }
 
 }
