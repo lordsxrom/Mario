@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.World
 import com.relaxgames.raicing.MyGdxGame
 import com.relaxgames.raicing.Scenes.Hud
+import com.relaxgames.raicing.Screens.PlayScreen
 import java.util.logging.Logger
 
 class Coin : InteractiveTileObject {
@@ -14,7 +15,7 @@ class Coin : InteractiveTileObject {
     private val tileSet: TiledMapTileSet
     private val BLANK_COIN = 28
 
-    constructor(world: World, map: TiledMap, bounds: Rectangle) : super(world, map, bounds) {
+    constructor(screen: PlayScreen, bounds: Rectangle) : super(screen, bounds) {
         tileSet = map.tileSets.getTileSet("NES - Super Mario Bros - Tileset")
         fixtue.userData = this
         setCategoryFilter(MyGdxGame.COIN_BIT)

@@ -27,8 +27,8 @@ class Mario : Sprite {
     private var stateTimer: Float
     private var runningRight: Boolean
 
-    constructor(world: World, screen: PlayScreen) : super(screen.atlas.findRegion("little_mario")) {
-        this.world = world
+    constructor(screen: PlayScreen) : super(screen.atlas.findRegion("little_mario")) {
+        this.world = screen.world
         currentState = State.STANDING
         previousState = State.STANDING
         stateTimer = 0f
@@ -109,7 +109,8 @@ class Mario : Sprite {
         val shape = CircleShape()
         shape.radius = 6 / MyGdxGame.PPM
         fdef.filter.categoryBits = MyGdxGame.MARIO_BIT
-        fdef.filter.maskBits = MyGdxGame.DEFAULT_BIT or MyGdxGame.COIN_BIT or MyGdxGame.BRICK_BIT
+        fdef.filter.maskBits = MyGdxGame.GROUND_BIT or MyGdxGame.COIN_BIT or
+                MyGdxGame.BRICK_BIT or MyGdxGame.OBJECT_BIT or MyGdxGame.ENEMY_BIT
 
         fdef.shape = shape
         b2body.createFixture(fdef)
