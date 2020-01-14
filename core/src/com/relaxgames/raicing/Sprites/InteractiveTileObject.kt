@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.*
 import com.relaxgames.raicing.MyGdxGame
+import com.relaxgames.raicing.Screens.PlayScreen
 
 abstract class InteractiveTileObject {
 
@@ -16,9 +17,9 @@ abstract class InteractiveTileObject {
 
     protected var fixtue: Fixture
 
-    constructor(world: World, map: TiledMap, bounds: Rectangle) {
-        this.world = world
-        this.map = map
+    constructor(screen: PlayScreen, bounds: Rectangle) {
+        this.world = screen.world
+        this.map = screen.map
         this.bounds = bounds
 
         val bdef = BodyDef()

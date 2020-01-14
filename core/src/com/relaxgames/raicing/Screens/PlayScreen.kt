@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.relaxgames.raicing.MyGdxGame
 import com.relaxgames.raicing.Scenes.Hud
+import com.relaxgames.raicing.Sprites.Goomba
 import com.relaxgames.raicing.Sprites.Mario
 import com.relaxgames.raicing.Tools.B2WorldCreator
 import com.relaxgames.raicing.Tools.WorldContactListener
@@ -31,15 +32,17 @@ open class PlayScreen : Screen {
     private var hud: Hud
 
     private var mapLoader: TmxMapLoader
-    private var map: TiledMap
+    var map: TiledMap
     private var renderer: OrthogonalTiledMapRenderer
 
-    private var world: World
+    var world: World
     private var b2dr: Box2DDebugRenderer
 
     private var player: Mario
+    private var goomba: Goomba
 
     private var music: Music
+
 
     constructor(game: MyGdxGame) {
         atlas = TextureAtlas("Mario_and_Enemies.pack")
@@ -67,16 +70,18 @@ open class PlayScreen : Screen {
         //allows for debug lines of our box2d world
         b2dr = Box2DDebugRenderer()
 
-        B2WorldCreator(world, map)
+        B2WorldCreator(this)
 
         //create mario in our game world
-        player = Mario(world, this)
+        player = Mario(this)
 
         world.setContactListener(WorldContactListener())
 
         music = MyGdxGame.manager.get("audio/music/mario_music.ogg", Music::class.java)
         music.isLooping = true
         music.play()
+
+        goomba = Goomba(this, 0.32f, 0.32f)
     }
 
     override fun hide() {
@@ -96,6 +101,7 @@ open class PlayScreen : Screen {
 
         player.update(delta)
         hud.update(delta)
+        goomba.update(delta)
 
         gamecam.position.x = player.b2body.position.x
 
@@ -136,6 +142,7 @@ open class PlayScreen : Screen {
         game.batch.projectionMatrix = gamecam.combined
         game.batch.begin()
         player.draw(game.batch)
+        goomba.draw(game.batch)
         game.batch.end()
 
         game.batch.projectionMatrix = hud.stage.camera.combined

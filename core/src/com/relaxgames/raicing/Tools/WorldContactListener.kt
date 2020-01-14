@@ -1,7 +1,10 @@
 package com.relaxgames.raicing.Tools
 
 import com.badlogic.gdx.physics.box2d.*
+import com.relaxgames.raicing.MyGdxGame
+import com.relaxgames.raicing.Sprites.Enemy
 import com.relaxgames.raicing.Sprites.InteractiveTileObject
+import kotlin.experimental.or
 
 class WorldContactListener : ContactListener {
     override fun endContact(contact: Contact?) {
@@ -11,6 +14,8 @@ class WorldContactListener : ContactListener {
     override fun beginContact(contact: Contact) {
         val fixA = contact.fixtureA
         val fixB = contact.fixtureB
+
+        val cDef = fixA.filterData.categoryBits or fixB.filterData.categoryBits
 
         if ("head" == fixA.userData || "head" == fixB.userData) {
             var head: Fixture? = null
@@ -27,6 +32,15 @@ class WorldContactListener : ContactListener {
             if (obj!!.userData != null && InteractiveTileObject::class.java.isAssignableFrom(obj.userData.javaClass)) {
                 (obj.userData as InteractiveTileObject).onHeadHit()
             }
+        }
+
+        when (cDef) {
+            MyGdxGame.ENEMY_HEAD_BIT or MyGdxGame.MARIO_BIT ->
+                if (fixA.filterData.categoryBits == MyGdxGame.ENEMY_HEAD_BIT)
+                    (fixA.userData as Enemy).hitOnHead()
+                else if (fixB.filterData.categoryBits == MyGdxGame.ENEMY_HEAD_BIT)
+                    (fixB.userData as Enemy).hitOnHead()
+
         }
     }
 
