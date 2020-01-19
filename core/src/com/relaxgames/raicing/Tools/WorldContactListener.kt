@@ -1,5 +1,6 @@
 package com.relaxgames.raicing.Tools
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.physics.box2d.*
 import com.relaxgames.raicing.MyGdxGame
 import com.relaxgames.raicing.Sprites.Enemy
@@ -38,8 +39,15 @@ class WorldContactListener : ContactListener {
             MyGdxGame.ENEMY_HEAD_BIT or MyGdxGame.MARIO_BIT ->
                 if (fixA.filterData.categoryBits == MyGdxGame.ENEMY_HEAD_BIT)
                     (fixA.userData as Enemy).hitOnHead()
-                else if (fixB.filterData.categoryBits == MyGdxGame.ENEMY_HEAD_BIT)
+                else
                     (fixB.userData as Enemy).hitOnHead()
+            MyGdxGame.ENEMY_BIT or MyGdxGame.OBJECT_BIT ->
+                if (fixA.filterData.categoryBits == MyGdxGame.ENEMY_BIT)
+                    (fixA.userData as Enemy).reverseVelocity(true, false)
+                else
+                    (fixB.userData as Enemy).reverseVelocity(true, false)
+            MyGdxGame.MARIO_BIT or MyGdxGame.ENEMY_BIT ->
+                Gdx.app.log("Mario", "Died")
 
         }
     }

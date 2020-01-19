@@ -1,6 +1,7 @@
 package com.relaxgames.raicing.Sprites
 
 import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
@@ -39,7 +40,9 @@ class Goomba : Enemy {
             world.destroyBody(b2body)
             destroyed = true
             setRegion(TextureRegion(screen.atlas.findRegion("goomba"), 32, 0, 16, 16))
+            stateTime = 0f
         } else if (!destroyed) {
+            b2body.linearVelocity = velocity
             setPosition(b2body.position.x - width / 2, b2body.position.y - height / 2)
             setRegion(walkAnimation.getKeyFrame(stateTime, true))
         }
@@ -59,7 +62,7 @@ class Goomba : Enemy {
                 MyGdxGame.BRICK_BIT or MyGdxGame.ENEMY_BIT or MyGdxGame.OBJECT_BIT or MyGdxGame.MARIO_BIT
 
         fdef.shape = shape
-        b2body.createFixture(fdef)
+        b2body.createFixture(fdef).userData = this
 
         val head = PolygonShape()
         val vertice = Array(4) { Vector2() }
@@ -74,6 +77,11 @@ class Goomba : Enemy {
         fdef.filter.categoryBits = MyGdxGame.ENEMY_HEAD_BIT
         b2body.createFixture(fdef).userData = this
 
+    }
+
+    override fun draw(batch: Batch) {
+        if (!destroyed || stateTime < 1)
+            super.draw(batch)
     }
 
     override fun hitOnHead() {
